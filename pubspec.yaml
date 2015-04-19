@@ -2,4 +2,4 @@ name: ttf_parser
 version: 1.0.0
 author: Ali Akbar
 description: TTF binary font file parser
-homepage: coderespawn.com
+homepage: https://github.com/coderespawn/dart-ttf-parser
