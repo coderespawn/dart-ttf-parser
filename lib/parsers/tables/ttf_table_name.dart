@@ -1,19 +1,19 @@
 part of ttf_parser;
 
 class TtfTableName implements TtfTable {
-  int format;
-  int count;
-  int stringOffset;
-  
-  String copyright;
-  String fontFamily;
-  String subFamily;
-  String subFamilyID;
-  String fontName;
-  String nameTableVersion;
-  String fontNamePostScript;
-  String trademarkNotice;
-  String manufacturer;
+  int? format;
+  int count = 0;
+  int stringOffset = 0;
+
+  String? copyright;
+  String? fontFamily;
+  String? subFamily;
+  String? subFamilyID;
+  String? fontName;
+  String? nameTableVersion;
+  String? fontNamePostScript;
+  String? trademarkNotice;
+  String? manufacturer;
   
   
   void parseData(StreamReader reader) {
@@ -40,7 +40,7 @@ class TtfTableName implements TtfTable {
   }
   
   void _registerString(int nameID, String value) {
-    if (value == null || value.length == 0) return;
+    if (value.isEmpty) return;
     switch(nameID) {
       case 0: copyright = value; break;
       case 1: fontFamily = value; break;

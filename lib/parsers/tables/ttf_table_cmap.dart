@@ -6,9 +6,9 @@ part of ttf_parser;
  * */
 class TtfTableCmap implements TtfTable {
   // Character Code to Glyph Index mapping
-  var charToGlyphIndexMap = new Map<int, int>();
-  var glyphToCharIndexMap = new Map<int, int>();
-  int languageID;
+  var codePointToGlyphIndexMap = <int, int>{};
+  var glyphIndexToCodePointMap = <int, int>{};
+  late int languageID;
   
   void parseData(StreamReader reader) {
     int baseOffset = reader.currentPosition;
@@ -17,16 +17,16 @@ class TtfTableCmap implements TtfTable {
     int version = reader.readUnsignedShort();
     // Make sure the version is set to 0
     if (version != 0) {
-      throw new ParseException("Invalid CMAP table version number");
+      throw ParseException("Invalid CMAP table version number");
     }
     
     int numSubTables = reader.readUnsignedShort();
     
 //    print ("Num encoding subtables: $numSubTables");
     // Read the cmap sub-table entries
-    var subTablesEntries = new List<_CMapSubTableEntry>();
+    var subTablesEntries = <_CMapSubTableEntry>[];
     for (var i = 0; i < numSubTables; i++) {
-      var entry = new _CMapSubTableEntry();
+      var entry = _CMapSubTableEntry();
       entry.platformID = reader.readUnsignedShort();
       entry.platformSpecificID = reader.readUnsignedShort();
       entry.offset = reader.readUnsignedInt();
@@ -59,7 +59,7 @@ class TtfTableCmap implements TtfTable {
     }
     
     if (!validSubTableFound) {
-      throw new ParseException("Cannot find a valid cmap subtable.  Only ASCII fonts are supported for now");
+      throw ParseException("Cannot find a valid cmap subtable.  Only ASCII fonts are supported for now");
     }
   }
   
@@ -74,7 +74,7 @@ class TtfTableCmap implements TtfTable {
     int segCount = segCountX2 ~/ 2;
 
     // Read the end codes
-    var endCodes = new List<int>();
+    var endCodes = <int>[];
     for (var i = 0; i < segCount; i++) {
       endCodes.add(reader.readUnsignedShort());
     }
@@ -82,25 +82,25 @@ class TtfTableCmap implements TtfTable {
     // Read the reserved pad and make sure it is 0
     int reservedPad = reader.readUnsignedShort();
     if (reservedPad != 0) {
-      throw new ParseException("Failed to parse cmap subtable (format 4)");
+      throw ParseException("Failed to parse cmap subtable (format 4)");
     }
     
     // Read the start codes
-    var startCodes = new List<int>();
+    var startCodes = <int>[];
     for (var i = 0; i < segCount; i++) {
       startCodes.add(reader.readUnsignedShort());
     }
     
     // Read the id delta list
-    var idDeltas = new List<int>();
+    var idDeltas = <int>[];
     for (var i = 0; i < segCount; i++) {
       idDeltas.add(reader.readUnsignedShort());
     }
     
     // Read the id range offset table
     int idRangeOffsetBasePos = reader.currentPosition;
-    var idRangeOffsets = new List<int>();
-    var idRangeOffsetsAddress = new List<int>();
+    var idRangeOffsets = <int>[];
+    var idRangeOffsetsAddress = <int>[];
     for (var i = 0; i < segCount; i++) {
       idRangeOffsetsAddress.add(reader.currentPosition);
       idRangeOffsets.add(reader.readUnsignedShort());
@@ -124,8 +124,8 @@ class TtfTableCmap implements TtfTable {
           glyphIndex = reader.readUnsignedShort();
         }
 
-        charToGlyphIndexMap[c] = glyphIndex;
-        glyphToCharIndexMap[glyphIndex] = c;
+        codePointToGlyphIndexMap[c] = glyphIndex;
+        glyphIndexToCodePointMap[glyphIndex] = c;
 //        print ("Char to Glyph mapping: $c <=> $glyphIndex");
       }
     }
@@ -139,8 +139,8 @@ class TtfTableCmap implements TtfTable {
     for (var i = 0; i < entryCount; i++) {
       int charCode = firstCode + i;
       int glyphIndex = reader.readUnsignedShort();
-      charToGlyphIndexMap[charCode] = glyphIndex;
-      glyphToCharIndexMap[glyphIndex] = charCode;
+      codePointToGlyphIndexMap[charCode] = glyphIndex;
+      glyphIndexToCodePointMap[glyphIndex] = charCode;
 //      print ("Char to Glyph mapping: $charCode <=> $glyphIndex");
     }
   }
@@ -149,7 +149,7 @@ class TtfTableCmap implements TtfTable {
     // Make sure the length is 262 (fixed)
     int length = reader.readUnsignedShort();
     if (length != 262) {
-      throw new ParseException("Invalid cmap subtable format");
+      throw ParseException("Invalid cmap subtable format");
     }
     
     languageID = reader.readUnsignedShort();
@@ -157,16 +157,16 @@ class TtfTableCmap implements TtfTable {
       int charCode = i;
       int glyphIndex = reader.read();
       if (glyphIndex > 0) {
-        charToGlyphIndexMap[charCode] = glyphIndex;
-        glyphToCharIndexMap[glyphIndex] = charCode;
+        codePointToGlyphIndexMap[charCode] = glyphIndex;
+        glyphIndexToCodePointMap[glyphIndex] = charCode;
       }
     }
   }
 }
 
 class _CMapSubTableEntry {
-  int platformID;
-  int platformSpecificID;
-  int offset;
+  late int platformID;
+  late int platformSpecificID;
+  late int offset;
 }
  

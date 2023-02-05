@@ -5,23 +5,23 @@ part of ttf_parser;
  * Specs: https://developer.apple.com/fonts/TTRefMan/RM06/Chap6hhea.html
  * */
 class TtfTableHhea implements TtfTable {
-  num version;
-  int ascent;
-  int descent;
-  int lineGap;
-  int advanceWidthMax;
-  int minLeftSideBearing;
-  int minRightSideBearing;
-  int xMaxExtent;
-  int caretSlopeRise;
-  int caretSlopeRun;
-  int caretOffset;
-  int reserved1;
-  int reserved2;
-  int reserved3;
-  int reserved4;
-  int metricDataFormat;
-  int numOfLongHorMetrics;
+  late num version;
+  late int ascent;
+  late int descent;
+  late int lineGap;
+  late int advanceWidthMax;
+  late int minLeftSideBearing;
+  late int minRightSideBearing;
+  late int xMaxExtent;
+  late int caretSlopeRise;
+  late int caretSlopeRun;
+  late int caretOffset;
+  late int reserved1;
+  late int reserved2;
+  late int reserved3;
+  late int reserved4;
+  late int metricDataFormat;
+  late int numOfLongHorMetrics;
   
   void parseData(StreamReader reader) {
     version = reader.read32Fixed();

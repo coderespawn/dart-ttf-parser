@@ -3,3 +3,5 @@ version: 1.0.0
 author: Ali Akbar <ali.akbar@gmail.com>
 description: TTF binary font file parser
 homepage: https://github.com/coderespawn/dart-ttf-parser
+environment:
+  sdk: '^2.19.0'

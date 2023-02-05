@@ -5,8 +5,9 @@ class TtfTableGlyf implements TtfTable {
   TtfTableGlyf(this.font);
   
   // Glyph index to info mapping
-  var glyphInfoMap = new Map<int, GlyphInfo>();
+  var glyphInfoMap = <int, GlyphInfo>{};
   
+  @override
   void parseData(StreamReader reader) {
     var offsets = font.loca.glyphOffsets;
     var baseOffset = reader.currentPosition;
@@ -14,7 +15,7 @@ class TtfTableGlyf implements TtfTable {
     int glyphIndex = 0;
     for (var offset in offsets) {
       reader.seek(baseOffset + offset);
-      var glyphInfo = new GlyphInfo();
+      var glyphInfo = GlyphInfo();
       glyphInfo.index = glyphIndex;
       glyphInfo.numberOfContours = reader.readSignedShort();
       glyphInfo.xMin = reader.readSignedShort();
@@ -31,10 +32,10 @@ class TtfTableGlyf implements TtfTable {
 
 
 class GlyphInfo {
-  int index;
-  int numberOfContours;
-  int xMin;
-  int yMin;
-  int xMax;
-  int yMax;
+  late int index;
+  late int numberOfContours;
+  late int xMin;
+  late int yMin;
+  late int xMax;
+  late int yMax;
 }

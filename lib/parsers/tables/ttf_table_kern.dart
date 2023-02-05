@@ -1,10 +1,10 @@
 part of ttf_parser;
 
 class TtfTableKern implements TtfTable {
-  num version;
-  int nTables;
+  late num version;
+  late int nTables;
   Map<int, Map<int, int>> kernings = new Map<int, Map<int, int>>();
-  TtfFont font;
+  late TtfFont font;
   TtfTableKern(this.font);
   
   void parseData(StreamReader reader) {
@@ -50,11 +50,11 @@ class TtfTableKern implements TtfTable {
   }
 
   void _registerKerning(int leftGlyphId, int rightGlyphId, int value) {
-    int leftKeyCode = font.cmap.glyphToCharIndexMap[leftGlyphId];
-    int rightKeyCode = font.cmap.glyphToCharIndexMap[rightGlyphId];
+    int leftKeyCode = font.cmap.glyphIndexToCodePointMap[leftGlyphId]!;
+    int rightKeyCode = font.cmap.glyphIndexToCodePointMap[rightGlyphId]!;
     if (!kernings.containsKey(leftKeyCode)) {
-      kernings[leftKeyCode] = new Map<int, int>();
+      kernings[leftKeyCode] = <int, int>{};
     }
-    kernings[leftKeyCode][rightKeyCode] = value;
+    kernings[leftKeyCode]?[rightKeyCode] = value;
   }
 }

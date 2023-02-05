@@ -5,7 +5,7 @@ class TtfTableLoca implements TtfTable {
   TtfTableLoca(this.font);
   
   // Offsets for each glyph index
-  var glyphOffsets = new List<int>();
+  var glyphOffsets = <int>[];
 
   void parseData(StreamReader reader) {
     // Find out the index format from the head table

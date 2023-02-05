@@ -1,23 +1,23 @@
 part of ttf_parser;
 
 class TtfTableHead implements TtfTable {
-  num version;
-  num fontRevision;
-  int checkSumAdjustment;
-  int magicNumber;
-  int flags;
-  int unitsPerEm;
-  int created;
-  int modified;
-  int xMin;
-  int yMin;
-  int xMax;
-  int yMax;
-  int macStyle;
-  int lowestRecPPEM;
-  int fontDirectionHint;
-  int indexToLocFormat;
-  int glyphDataFormat;
+  late num version;
+  late num fontRevision;
+  late int checkSumAdjustment;
+  late int magicNumber;
+  late int flags;
+  late int unitsPerEm;
+  late int created;
+  late int modified;
+  late int xMin;
+  late int yMin;
+  late int xMax;
+  late int yMax;
+  late int macStyle;
+  late int lowestRecPPEM;
+  late int fontDirectionHint;
+  late int indexToLocFormat;
+  late int glyphDataFormat;
   
   
   void parseData(StreamReader reader) {
@@ -41,7 +41,7 @@ class TtfTableHead implements TtfTable {
     
     // Make sure the magic number is correct
     if (magicNumber != 0x5F0F3CF5) {
-      throw new ParseException("File is not a TrueType font");
+      throw ParseException("File is not a TrueType font");
     }
   }
 }

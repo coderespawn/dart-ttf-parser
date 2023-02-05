@@ -1,5 +1,7 @@
 library ttf_parser;
 import 'dart:convert';
+import 'dart:developer';
+import 'dart:math' as math;
 
 part 'ttf_font.dart';
 part 'parsers/ttf_parser.dart';
@@ -13,6 +15,7 @@ part 'parsers/tables/ttf_table_maxp.dart';
 part 'parsers/tables/ttf_table_name.dart';
 part 'parsers/tables/ttf_table_loca.dart';
 part 'parsers/tables/ttf_table_glyf.dart';
+part 'parsers/tables/ttf_table_post.dart';
 part 'parsers/tables/font_directory.dart';
 part 'stream/stream_reader.dart';
 part 'stream/byte_array_stream_reader.dart';

@@ -19,7 +19,7 @@ abstract class StreamReader {
   }
 
   String readStringUtf8(int length) {
-    List<int> data = new List<int>();
+    List<int> data = <int>[];
     data = readBytes(length);
     return new Utf8Codec().decode(data);
   }
@@ -96,7 +96,7 @@ abstract class StreamReader {
   void close();
 
   // Seek to the specified position in the stream
-  void seek(int position);
+  void seek(int? position);
   
   // Get the current seek position of the stream
   int get currentPosition;
